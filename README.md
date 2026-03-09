@@ -1,56 +1,90 @@
-Customer Churn Prediction Project
-Project Overview
-This project aims to predict customer churn for a telecommunications company using the Telco Customer Churn dataset. By analyzing customer demographics, account information, and service usage, we develop a machine learning model to identify individuals at high risk of leaving the service.
+# Customer Churn Prediction - Machine Learning Project
 
-Dataset Description
-The dataset contains 7,043 rows and 21 columns. Key features include:
+**Author:** Ammara Akhtar  
+**Course:** Introduction to Applied Artificial Intelligence  
+**Semester:** BS 8th Semester  
+**Labs:** Week 1 & Week 2 - Customer Churn Prediction  
 
-Demographics: Gender, Senior Citizen status, Partner, and Dependents.
+---
 
-Services: Phone service, Multiple lines, Internet service (DSL, Fiber optic), Online security, Tech support, and Streaming services.
+## Project Overview
 
-Account Information: Tenure, Contract type, Payment method, Monthly charges, and Total charges.
+This project aims to predict **customer churn** for a telecom company using machine learning models. The main objectives are:
 
-Target: Churn (Yes/No).
+- Preprocess the dataset and handle missing values  
+- Encode categorical variables into numeric features  
+- Train and evaluate multiple machine learning models:
+  - Logistic Regression
+  - Decision Tree
+  - Random Forest  
+- Compare model performance and identify the best model  
+- Engineer new features to improve predictions  
 
-Technical Workflow
-1. Data Preprocessing & Cleaning
-Type Conversion: Converted TotalCharges from an object type to numeric.
+---
 
-Missing Value Imputation: Identified missing values in TotalCharges and filled them using the median value of the column.
+## Dataset
 
-Categorical Encoding: Used One-Hot Encoding (pd.get_dummies) to transform categorical variables into a machine-readable format, resulting in 32 total features.
+The dataset contains customer information such as:
 
-Binary Mapping: Mapped the target variable Churn to binary values: 1 for Yes and 0 for No.
+- Demographics: gender, partner, dependents  
+- Services subscribed: phone, internet, streaming, etc.  
+- Account information: tenure, contract type, monthly charges, total charges  
+- Target variable: `Churn` (Yes/No)  
 
-2. Model Training
-The data was split using a stratified 80/20 train-test split to ensure the churn distribution remained consistent. The primary model implemented was:
+**Source:** [WA_Fn-UseC_-Telco-Customer-Churn.csv]
 
-Algorithm: Logistic Regression.
+---
 
-Configuration: max_iter=1000 to ensure model convergence.
+## Project Structure
 
-3. Evaluation Results
-Accuracy: The model achieved an accuracy score of 80.34%.
+- **week1_eda.ipynb** — Exploratory Data Analysis (EDA) from Week 1  
+- **week2_ml_models.ipynb** — Jupyter notebook with preprocessing, models, evaluation, and feature engineering  
+- **README.md** — Project description and summary  
 
-Performance Metrics:
+---
 
-Precision (Churn): 0.65.
+## Data Preprocessing
 
-Recall (Churn): 0.56.
+- Converted `TotalCharges` to numeric and filled missing values with median  
+- Encoded categorical variables using one-hot encoding  
+- Converted target variable `Churn` to numeric (Yes=1, No=0)  
 
-F1-Score (Churn): 0.60.
+---
 
-Confusion Matrix: Correct predictions included 924 non-churners and 208 churners.
+## Machine Learning Models
 
-Conclusions & Key Findings
-The Logistic Regression model provides a strong baseline with ~80% accuracy.
+| Model                | Accuracy |
+|---------------------|----------|
+| Logistic Regression  | 0.78     |
+| Decision Tree        | 0.74     |
+| Random Forest        | 0.81     |
 
-The model is better at identifying customers who stay (recall: 0.89) than those who leave (recall: 0.56), indicating a need to address class imbalance in future iterations.
+- **Best Model:** Random Forest  
 
-Future Work
-Implement Hyperparameter Tuning for Decision Tree and Random Forest models.
+---
 
-Apply SMOTE (Synthetic Minority Over-sampling Technique) to improve the detection of churned customers.
+## Feature Engineering
 
-Conduct deeper feature importance analysis to identify the top three drivers of customer churn.
+Additional features were created to improve prediction:
+
+1. **TotalRevenue** = tenure × monthly charges  
+2. **TotalServices** = count of services subscribed  
+3. **TenureGroup** = grouping customers by tenure  
+4. **HighCharges** = flag for customers with high monthly charges  
+
+---
+
+## Key Findings
+
+- Customers on **month-to-month contracts** are more likely to churn  
+- Higher **Monthly Charges** increase churn risk  
+- Contract type, tenure, and monthly charges are the most important features  
+- Feature engineering slightly improved model performance  
+
+---
+
+## How to Run
+
+1. Clone this repository:  
+```bash
+git clone https://github.com/yourusername/customer-churn-prediction.git
