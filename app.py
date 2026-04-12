@@ -83,3 +83,41 @@ if st.button('Predict Churn', type='primary'):
     else:
         st.success('LOW RISK: Customer likely to stay')
         st.metric('Retention Probability', f'{100 - churn_prob:.1f}%')
+        import plotly.express as px
+
+# Maan lijiye aapke pass 'Churn' column hai dataframe mein
+def plot_churn_distribution(df):
+    churn_counts = df['Churn'].value_counts().reset_index()
+    churn_counts.columns = ['Status', 'Count']
+    
+    fig = px.pie(churn_counts, values='Count', names='Status', 
+                 title='Customer Churn Distribution',
+                 color_discrete_sequence=px.colors.sequential.RdBu)
+    st.plotly_chart(fig) 
+    def plot_feature_importance(model, feature_names):
+    # XGBoost se importance nikalna
+    importances = model.feature_importances_
+    feature_imp_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
+    feature_imp_df = feature_imp_df.sort_values(by='Importance', ascending=False).head(10)
+
+    fig = px.bar(feature_imp_df, x='Importance', y='Feature', orientation='h',
+                 title='Top 10 Factors Influencing Churn',
+                 color='Importance',
+                 color_continuous_scale='Viridis')
+    
+    fig.update_layout(yaxis={'categoryorder':'total ascending'})
+    st.plotly_chart(fig)
+    # Model load hone ke baad
+if st.checkbox('Show Visualizations'):
+    st.subheader("Project Analytics")
+    
+    # Do columns banayein visuals ke liye
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        plot_churn_distribution(df) # 'df' aapka original dataset hai
+        
+    with col2:
+        # 'model' aapka loaded XGBoost model hai
+        # 'X.columns' aapke features ke naam hain
+        plot_feature_importance(model, X.columns)
